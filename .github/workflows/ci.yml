@@ -1,0 +1,50 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+          python -m spacy download en_core_web_sm
+
+      - name: Formatter verification
+        run: black --check medshield tests
+
+      - name: Run tests
+        id: run_tests
+        run: pytest | tee test-output.txt
+
+      - name: Generate Summary
+        if: always()
+        run: |
+          echo "### CI Report" >> $GITHUB_STEP_SUMMARY
+          echo "| Python Version | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|----------------|--------|" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ job.status }}" == "success" ]; then
+            echo "| ${{ matrix.python-version }} | ✅ Passed |" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| ${{ matrix.python-version }} | ❌ Failed |" >> $GITHUB_STEP_SUMMARY
+          fi
+
