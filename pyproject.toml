@@ -3,7 +3,7 @@ name = "medshield-py"
 version = "0.1.0"
 description = "Privacy-first PII/PHI sanitization for Medical AI Agents (Python Version)."
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 license = {text = "Apache-2.0"}
 authors = [
     {name = "Amir-Benhadid", email = "amir@example.com"}
