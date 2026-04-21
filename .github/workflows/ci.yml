@@ -48,31 +48,3 @@ jobs:
             echo "| ${{ matrix.python-version }} | ❌ Failed |" >> $GITHUB_STEP_SUMMARY
           fi
 
-  publish:
-    needs: test
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      id-token: write # For Trusted Publishing to PyPI
-    steps:
-      - uses: actions/checkout@v4
-      
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-      
-      - name: Install build dependencies
-        run: pip install build twine
-
-      - name: Build package
-        run: python -m build
-
-      # Note: For PyPI Trusted Publishing, you'd use pypa/gh-action-pypi-publish
-      - name: Publish to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          # This requires configuring Trusted Publishing in your PyPI account 
-          # to point to this GitHub repo.
-          skip-existing: true
