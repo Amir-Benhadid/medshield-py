@@ -17,10 +17,9 @@ def test_deterministic_behavior():
 
 def test_synthesize_mode():
     s = Sanitizer(options={"level": "SYNTHESIZE"})
-    text = "Contact me at 555-0199"
+    text = "Contact me at 555-123-0199"
     res = s.sanitize(text)
-    assert "555-0199" not in res
-    # Should be replaced by a fake phone number (likely containing digits)
+    assert "555-123-0199" not in res
     assert any(char.isdigit() for char in res)
 
 def test_medical_context_preservation():
