@@ -1,0 +1,29 @@
+[project]
+name = "medshield-py"
+version = "0.1.0"
+description = "Privacy-first PII/PHI sanitization for Medical AI Agents (Python Version)."
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "Apache-2.0"}
+authors = [
+    {name = "Amir-Benhadid", email = "amir@example.com"}
+]
+dependencies = [
+    "faker>=33.0.0",
+    "spacy>=3.7.0",
+    "pydantic>=2.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "black>=24.0.0",
+    "mypy>=1.0.0",
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
