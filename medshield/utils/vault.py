@@ -2,6 +2,7 @@ import uuid
 from typing import Dict
 from faker import Faker
 
+
 class TokenVault:
     def __init__(self):
         self.faker = Faker()

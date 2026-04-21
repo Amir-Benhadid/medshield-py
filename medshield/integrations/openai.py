@@ -1,10 +1,12 @@
 from typing import Any, Dict, List
 from .. import Sanitizer
 
+
 class OpenAIMedShieldMiddleware:
     """
     Middleware for intercepting and sanitizing messages sent to the OpenAI Python SDK.
     """
+
     def __init__(self, options: dict = None):
         self.sanitizer = Sanitizer(options)
 

@@ -3,15 +3,16 @@ from .types import SanitizerOptions, ProcessedResult, DetectionResult
 from .utils.vault import TokenVault
 from .layers.regex import RegexLayer
 
+
 class Sanitizer:
     def __init__(self, options: Union[SanitizerOptions, dict] = None):
         if isinstance(options, dict):
             self.options = SanitizerOptions(**options)
         else:
             self.options = options or SanitizerOptions()
-            
+
         self.vault = TokenVault()
-        self.layers = [RegexLayer()] # Add more layers as they are implemented
+        self.layers = [RegexLayer()]  # Add more layers as they are implemented
 
     def sanitize(self, text: str) -> str:
         res = self.scan(text)
@@ -26,13 +27,11 @@ class Sanitizer:
             current_text = result["sanitizedText"]
             all_detections.extend(result["detections"])
 
-        return ProcessedResult(
-            sanitizedText=current_text,
-            detections=all_detections
-        )
+        return ProcessedResult(sanitizedText=current_text, detections=all_detections)
 
     def reset_context(self):
         self.vault.reset()
+
 
 # Functional export
 def sanitize(text: str, options: dict = None) -> str:
